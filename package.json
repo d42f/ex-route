@@ -1,0 +1,40 @@
+{
+  "name": "ex-route",
+  "description": "Node.JS route manager",
+  "homepage": "",
+  "keywords": [
+    "express",
+    "route",
+    "server"
+  ],
+  "author": {
+    "name": "Dmitri Frolov",
+    "email": "dmitri.frolof@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/da2f/ex-route.git"
+  },
+  "main": "ex-route.js",
+  "version": "0.0.5",
+  "devDependencies": {},
+  "scripts": {},
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/da2f/ex-route/master/LICENSE"
+    }
+  ],
+  "files": [
+    "ex-route.js",
+    "LICENSE",
+    "README.md"
+  ],
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/da2f/ex-route/issues"
+  },
+  "readme": "ex-route\r\n========\r\n\r\nNode.JS route manager\r\n",
+  "_id": "ex-route@0.0.4",
+  "_from": "ex-route@"
+}
