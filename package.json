@@ -17,6 +17,10 @@
   },
   "main": "ex-route.js",
   "version": "0.0.5",
+  "dependencies": {
+    "ejs": "*",
+    "doctrine": "*"
+  },
   "devDependencies": {},
   "scripts": {},
   "licenses": [
