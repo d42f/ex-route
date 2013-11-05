@@ -5,10 +5,8 @@
 
 module.exports = [
     /**
-      @users
-     * users description
-     * resourcePath: /api/users
-     * description: All about API
+     * /users
+     * @return {Array} list of users
      */
     {
         method: 'get',
@@ -18,8 +16,9 @@ module.exports = [
         }
     },
     /**
-     * This function comment /users/:id
+     * /users/:id
      * @param {{id:Integer}} UserId
+     * @return {Object} user object
      */
     {
         method: 'get',

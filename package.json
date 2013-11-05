@@ -21,7 +21,9 @@
     "ejs": "*",
     "doctrine": "*"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "express": "*"
+  },
   "scripts": {},
   "licenses": [
     {

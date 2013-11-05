@@ -5,7 +5,7 @@ var fs = require('fs'),
     doctrine = require('doctrine');
 
 var defaultParams = {
-        tpl: 'tpl.ejs',
+        tpl: path.join(path.dirname(module.filename), 'tpl.ejs'),
         help: '/api/help'
     },
     timeoutInterval = 100,
@@ -59,7 +59,7 @@ function readdoc (file, callback) {
     });
 }
 
-function tpldate (data) {
+function tpldata (data) {
     for (var key in data) if (data.hasOwnProperty(key)) {
         if (!util.isArray(data[key])) {
             delete data[key];
@@ -98,12 +98,12 @@ module.exports = function (app, params, callback) {
     if (params.debug === true) {
         app.get(params.help, function (req, res) {
             if (!tpl || true) {
-                fs.readFile(path.join(path.dirname(module.filename), params.tpl), function (err, data) {
+                fs.readFile(params.tpl, function (err, data) {
                     if (err) {
                         return callback(err);
                     }
                     tpl = data;
-                    renderhelp(tpl, tpldate(apiDocs), res);
+                    renderhelp(tpl, tpldata(apiDocs), res);
                 });
                 return undefined;
             }
@@ -136,7 +136,7 @@ module.exports = function (app, params, callback) {
                     if (err) {
                         return callback(err);
                     }
-                    docs.length ? apiDocs[path.basename(file)] = docs : null;
+                    docs.length ? apiDocs[file.replace(params.src, '')] = docs : null;
                 });
             }
         },
