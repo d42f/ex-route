@@ -72,7 +72,7 @@ function tpldata (data) {
         return type;
     }
     function getParamKey (o) {
-        var key = 'String';
+        var key = '';
         if (o && util.isArray(o.fields) && o.fields.length) {
             key = o.fields[0].key;
         }
