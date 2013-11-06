@@ -5,8 +5,11 @@
 
 module.exports = [
     /**
-     * /users
+     * Get users list
+     * @title /users
+     * @method get
      * @return {Array} list of users
+     * @authentication
      */
     {
         method: 'get',
@@ -16,9 +19,13 @@ module.exports = [
         }
     },
     /**
-     * /users/:id
+     * Get user object by id
+     * @title /users/:id
+     * @method get
      * @param {{id:Integer}} UserId
+     * @param {{sid:Integer}} StateId
      * @return {Object} user object
+     * @authentication
      */
     {
         method: 'get',

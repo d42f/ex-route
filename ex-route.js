@@ -1,6 +1,7 @@
 var fs = require('fs'),
     path = require('path'),
     util = require('util'),
+    crypto = require('crypto'),
     ejs = require('ejs'),
     doctrine = require('doctrine');
 
@@ -60,26 +61,76 @@ function readdoc (file, callback) {
 }
 
 function tpldata (data) {
+    function getTypeName (o) {
+        return o ? o.name : '';
+    }
+    function getParamType (o) {
+        var type = 'String';
+        if (o && util.isArray(o.fields) && o.fields.length) {
+            type = o.fields[0].value.name;
+        }
+        return type;
+    }
+    function getParamKey (o) {
+        var key = 'String';
+        if (o && util.isArray(o.fields) && o.fields.length) {
+            key = o.fields[0].key;
+        }
+        return key;
+    }
+
     for (var key in data) if (data.hasOwnProperty(key)) {
-        if (!util.isArray(data[key])) {
+        data[key] = util.isArray(data[key]) ? {docs: data[key]} : data[key];
+        data[key].hash = crypto.createHash('md5').update(key).digest('hex');
+
+        if (!util.isArray(data[key].docs)) {
             delete data[key];
             continue;
         }
-        var docs = data[key];
+
+        var docs = data[key].docs;
         for (var docsInd = 0, docsLen = docs.length; docsInd < docsLen; docsInd++) {
             var doc = docs[docsInd];
-            console.log(doc);
+            doc.hash = crypto.createHash('md5').update(doc.description).digest('hex');
+            doc.params = [];
             if (util.isArray(doc.tags)) {
-                //for (var ind = 0, len = doc.tags.length; ind < len; ind++) {
-                //    console.log(key, docs.tags[ind]);
-                //}
+                for (var ind = 0, len = doc.tags.length; ind < len; ind++) {
+                    switch ((doc.tags[ind].title || '').toLowerCase()) {
+                        case 'return':
+                            doc.return = {
+                                description: doc.tags[ind].description || '',
+                                type: getTypeName(doc.tags[ind].type)
+                            }
+                            break;
+                        case 'param':
+                            doc.params.push({
+                                name: doc.tags[ind].name,
+                                key: getParamKey(doc.tags[ind].type),
+                                type: getParamType(doc.tags[ind].type)
+                            });
+                            break;
+                        case 'title':
+                            doc.title = doc.tags[ind].description || doc.description;
+                            break;
+                        case 'method':
+                            doc.method = (doc.tags[ind].description || 'GET').toUpperCase();
+                            break;
+                        case 'authentication':
+                            doc.isAuthenticationRequired = true;
+                            break;
+                        case 'deprecated':
+                            doc.isDeprecated = true;
+                            break;
+                    }
+                }
             }
         }
     }
-    return {};
+    return {items: data};
 }
 
 function renderhelp (str, data, res) {
+    console.log(data.items)
     res.end(ejs.render((str || '').toString(), data || {}));
 }
 
@@ -107,7 +158,7 @@ module.exports = function (app, params, callback) {
                 });
                 return undefined;
             }
-            renderhelp(tpl, {}, res);
+            renderhelp(tpl, tpldata(apiDocs), res);
         });
     }
 
