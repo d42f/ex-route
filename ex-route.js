@@ -130,7 +130,6 @@ function tpldata (data) {
 }
 
 function renderhelp (str, data, res) {
-    console.log(data.items)
     res.end(ejs.render((str || '').toString(), data || {}));
 }
 
