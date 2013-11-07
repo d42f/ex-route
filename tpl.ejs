@@ -131,7 +131,7 @@
                     <% if (items[key].docs.length) { %>
                       <ul class="nav">
                         <% for (var ind = 0, len = items[key].docs.length; ind < len; ind++) { %>
-                          <li><a href="#<%= items[key].docs[ind].hash %>"><%= items[key].docs[ind].title %></a></li>
+                          <li><a href="#<%= items[key].docs[ind].hash %>"><%= items[key].docs[ind].name %></a></li>
                         <% } %>
                       </ul>
                     <% } %>
@@ -152,7 +152,7 @@
                     <div class="panel-heading">
                       <h4 id="<%= doc.hash %>">
                         <span class="label label-info"><%= doc.method %></span>
-                        <span>&nbsp;<%= doc.title %></span>
+                        <span>&nbsp;<%= doc.name %></span>
                         <% if (doc.return && doc.return.type) { %>
                           <% if (doc.return.type.toLowerCase() == 'object') { %>
                             <span>&nbsp;{<%= doc.return.type %>}</span>

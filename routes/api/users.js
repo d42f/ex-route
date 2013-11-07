@@ -6,7 +6,7 @@
 module.exports = [
     /**
      * Get users list
-     * @title /api/users
+     * @name /api/users
      * @method get
      * @return {Array}
      * @authentication
@@ -20,7 +20,7 @@ module.exports = [
     },
     /**
      * Get user object by id
-     * @title /api/users/:id
+     * @name /api/users/:id
      * @method get
      * @param {{id:Integer}} UserId
      * @param {{sid:Integer}} StateId

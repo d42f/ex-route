@@ -109,8 +109,8 @@ function tpldata (data) {
                                 type: getParamType(doc.tags[ind].type)
                             });
                             break;
-                        case 'title':
-                            doc.title = doc.tags[ind].description || doc.description;
+                        case 'name':
+                            doc.name = doc.tags[ind].description || doc.description;
                             break;
                         case 'method':
                             doc.method = (doc.tags[ind].description || 'GET').toUpperCase();
