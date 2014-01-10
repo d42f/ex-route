@@ -2,6 +2,7 @@ var fs = require('fs'),
     path = require('path'),
     util = require('util'),
     crypto = require('crypto'),
+    async = require('async'),
     ejs = require('ejs'),
     doctrine = require('doctrine');
 
@@ -25,13 +26,40 @@ function fn (dir, items, o, itemCallback, callback) {
         if (err) {
             return callback(err);
         }
+        if (files.length === 0) {
+            o.to = setTimeout(o.success, timeoutInterval);
+            return undefined;
+        }
+
+        var tasks = [];
         for (var ind = 0, len = files.length; ind < len; ind++) {
             var file = path.join(dir, files[ind]);
-            itemCallback(null, file);
             items.push(file);
-            fn(file, items, o, itemCallback, callback);
+            itemCallback(null, file);
+
+            tasks.push((function (file) {
+                return function (cb) {
+                    fs.stat(file, function (err, stats) {
+                        if (err) {
+                            return cb(err);
+                        }
+                        cb(null, {file: file, stats: stats});
+                    });
+                };
+            })(file));
         }
-        o.to = setTimeout(o.success, timeoutInterval);
+        async.parallel(tasks, function (err, results) {
+            if (err) {
+                return callback(err);
+            }
+            o.to = setTimeout(o.success, timeoutInterval);
+            for (var ind = 0, len = results.length; ind < len; ind++) {
+                if (results[ind].stats.isDirectory()) {
+                    clearTimeout(o.to);
+                    fn(results[ind].file, items, o, itemCallback, callback);
+                }
+            }
+        });
     });
 }
 
@@ -81,7 +109,7 @@ function tpldata (data) {
 
     for (var key in data) if (data.hasOwnProperty(key)) {
         data[key] = util.isArray(data[key]) ? {docs: data[key]} : data[key];
-        data[key].hash = crypto.createHash('md5').update(key).digest('hex');
+        data[key].hash = crypto.createHash('sha1').update(key).digest('hex');
 
         if (!util.isArray(data[key].docs)) {
             delete data[key];
@@ -91,7 +119,7 @@ function tpldata (data) {
         var docs = data[key].docs;
         for (var docsInd = 0, docsLen = docs.length; docsInd < docsLen; docsInd++) {
             var doc = docs[docsInd];
-            doc.hash = crypto.createHash('md5').update(doc.description).digest('hex');
+            doc.hash = crypto.createHash('sha1').update(doc.description).digest('hex');
             doc.params = [];
             if (util.isArray(doc.tags)) {
                 for (var ind = 0, len = doc.tags.length; ind < len; ind++) {
@@ -190,8 +218,11 @@ module.exports = function (app, params, callback) {
                 });
             }
         },
-        function () {
-            typeof callback === 'function' && callback(null);
+        function (err, files) {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, files);
         }
     );
 };

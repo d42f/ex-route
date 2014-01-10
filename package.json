@@ -19,7 +19,8 @@
   "version": "0.0.5",
   "dependencies": {
     "ejs": "*",
-    "doctrine": "*"
+    "doctrine": "*",
+    "async": "*"
   },
   "devDependencies": {
     "express": "*"
