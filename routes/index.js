@@ -7,6 +7,6 @@ module.exports = {
   method: 'get',
   options: '/',
   callback:  function (req, res) {
-    res.end('Hello! Index.');
+    res.set('Content-Type', 'text/html').end('Hello! Index page.');
   }
 };

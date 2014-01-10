@@ -158,7 +158,7 @@ function tpldata (data) {
 }
 
 function renderhelp (str, data, res) {
-    res.end(ejs.render((str || '').toString(), data || {}));
+    res.set('Content-Type', 'text/html').end(ejs.render((str || '').toString(), data || {}));
 }
 
 module.exports = function (app, params, callback) {
