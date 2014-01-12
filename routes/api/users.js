@@ -33,5 +33,21 @@ module.exports = [
         callback: function (req, res) {
             res.send({id: req.params.id, name: 'username' + req.params.id});
         }
+    },
+    /**
+     * Get user object by id
+     * @name /api/users/:id
+     * @method get
+     * @param {{id:Integer}} UserId
+     * @param {{sid:Integer}} StateId
+     * @return {Object}
+     * @authentication
+     */
+    {
+        method: 'post',
+        options: '/api/users',
+        callback: function (req, res) {
+            res.send({id: req.params.id, name: 'username' + req.params.id});
+        }
     }
 ];

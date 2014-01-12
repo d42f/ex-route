@@ -41,9 +41,18 @@ describe('ex-route', function () {
             .expect(200, done);
     });
 
-    it('route [/users] with json', function (done) {
+    it('route get [/users] with json', function (done) {
         request(app)
             .get('/api/users')
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200, done);
+    });
+
+    it('route post [/users] with json', function (done) {
+        request(app)
+            .post('/api/users')
+            .send({name: 'username'})
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200, done);

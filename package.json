@@ -19,7 +19,7 @@
     "url": "http://github.com/da2f/ex-route/issues"
   },
   "main": "ex-route.js",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "licenses": [
     {
       "type": "MIT",
@@ -38,6 +38,7 @@
     "supertest": "~0.*.*"
   },
   "scripts": {
+    "start": "node app.js",
     "test": "/node_modules/.bin/mocha --timeout 5000 --reporter spec test/*.test.js",
     "test_win": ".\\node_modules\\.bin\\mocha.cmd --timeout 5000 --reporter spec test\\*.test.js"
   },
