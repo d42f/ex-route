@@ -6,7 +6,7 @@
 
 npm:
 
-    $ npm install ex-route
+    npm install ex-route
 
 ## Running Tests
 
