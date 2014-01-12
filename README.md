@@ -1,6 +1,6 @@
 # ex-route
 
-  Node.JS route manager
+  Node.JS route manager.
 
 ## Installation
 
