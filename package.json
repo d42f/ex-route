@@ -19,7 +19,7 @@
     "url": "http://github.com/da2f/ex-route/issues"
   },
   "main": "ex-route.js",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "licenses": [
     {
       "type": "MIT",
@@ -44,6 +44,7 @@
   },
   "files": [
     "ex-route.js",
+    "tpl.ejs",
     "README.md"
   ],
   "readmeFilename": "README.md"
