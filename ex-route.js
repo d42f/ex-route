@@ -154,7 +154,13 @@ function tpldata (data) {
             }
         }
     }
-    return {items: data};
+
+    var isEmptyObject = true;
+    for (var key in data) if (data.hasOwnProperty(key)) {
+        isEmptyObject = false;
+    }
+
+    return {items: isEmptyObject ? null : data};
 }
 
 function renderhelp (str, data, res) {
@@ -175,7 +181,7 @@ module.exports = function (app, params, callback) {
 
     if (params.debug === true) {
         app.get(params.help, function (req, res) {
-            if (!tpl || true) {
+            if (!tpl) {
                 fs.readFile(params.tpl, function (err, data) {
                     if (err) {
                         return callback(err);

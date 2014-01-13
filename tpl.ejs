@@ -122,76 +122,83 @@
     </div>
     <div class="container bs-docs-container">
       <div class="row">
-        <div class="col-md-3">
-          <div class="bs-sidebar" role="complementary">
-            <ul class="nav bs-sidenav">
-              <% for (var key in items) if (items.hasOwnProperty(key)) { %>
-                <li>
-                    <a href="#<%= items[key].hash %>"><%= key %></a>
-                    <% if (items[key].docs.length) { %>
-                      <ul class="nav">
-                        <% for (var ind = 0, len = items[key].docs.length; ind < len; ind++) { %>
-                          <li><a href="#<%= items[key].docs[ind].hash %>"><%= items[key].docs[ind].name %></a></li>
+        <% if (items) { %>
+            <div class="col-md-3">
+              <div class="bs-sidebar" role="complementary">
+                <ul class="nav bs-sidenav">
+                  <% for (var key in items) if (items.hasOwnProperty(key)) { %>
+                    <li>
+                        <a href="#<%= items[key].hash %>"><%= key %></a>
+                        <% if (items[key].docs.length) { %>
+                          <ul class="nav">
+                            <% for (var ind = 0, len = items[key].docs.length; ind < len; ind++) { %>
+                              <li><a href="#<%= items[key].docs[ind].hash %>"><%= items[key].docs[ind].name %></a></li>
+                            <% } %>
+                          </ul>
                         <% } %>
-                      </ul>
-                    <% } %>
-                </li>
-              <% } %>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-9" role="main">
-          <% for (var key in items) if (items.hasOwnProperty(key)) { %>
-            <div class="bs-docs-section">
-              <div class="page-header">
-                <h3 id="<%= items[key].hash %>"><%= key %></h3>
+                    </li>
+                  <% } %>
+                </ul>
               </div>
-              <% if (items[key].docs.length) { %>
-                <% items[key].docs.forEach(function (doc) { %>
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h4 id="<%= doc.hash %>">
-                        <span class="label label-info"><%= doc.method %></span>
-                        <span>&nbsp;<%= doc.name %></span>
-                        <% if (doc.return && doc.return.type) { %>
-                          <% if (doc.return.type.toLowerCase() == 'object') { %>
-                            <span>&nbsp;{<%= doc.return.type %>}</span>
-                          <% } else if (doc.return.type.toLowerCase() == 'array') { %>
-                          <% } else { %>
-                            <span>&nbsp;[<%= doc.return.type %>]</span>
-                          <% } %>
-                        <% } %>
-                        <% if (doc.isAuthenticationRequired) { %>
-                          <small class="pull-right">
-                            <span class="label label-warning">authentication required</span>
-                          </small>
-                        <% } %>
-                      </h4>
-                    </div>
-                    <div class="panel-body">
-                      <% if (doc.description || doc.return) { %>
-                        <blockquote>
-                          <% if (doc.description) { %>
-                            <p><%= doc.description %></p>
-                          <% } %>
-                          <% if (doc.return && doc.return.description) { %>
-                            <p><strong>return</strong>&nbsp;<%= doc.return.description %></p>
-                          <% } %>
-                        </blockquote>
-                      <% } %>
-                      <% if (doc.params.length) { %>
-                        <p><strong>params</strong></p>
-                        <% for (var ind = 0, len = doc.params.length; ind < len; ind++) { %>
-                          <p><span><%= doc.params[ind].key %></span>&nbsp;:&nbsp;<span><%= doc.params[ind].type %></span>&nbsp;-&nbsp;<span><%= doc.params[ind].name %></span></p>
-                        <% } %>
-                      <% } %>
-                    </div>
+            </div>
+            <div class="col-md-9" role="main">
+              <% for (var key in items) if (items.hasOwnProperty(key)) { %>
+                <div class="bs-docs-section">
+                  <div class="page-header">
+                    <h3 id="<%= items[key].hash %>"><%= key %></h3>
                   </div>
-                <% }) %>
+                  <% if (items[key].docs.length) { %>
+                    <% items[key].docs.forEach(function (doc) { %>
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 id="<%= doc.hash %>">
+                            <span class="label label-info"><%= doc.method %></span>
+                            <span>&nbsp;<%= doc.name %></span>
+                            <% if (doc.return && doc.return.type) { %>
+                              <% if (doc.return.type.toLowerCase() == 'object') { %>
+                                <span>&nbsp;{<%= doc.return.type %>}</span>
+                              <% } else if (doc.return.type.toLowerCase() == 'array') { %>
+                              <% } else { %>
+                                <span>&nbsp;[<%= doc.return.type %>]</span>
+                              <% } %>
+                            <% } %>
+                            <% if (doc.isAuthenticationRequired) { %>
+                              <small class="pull-right">
+                                <span class="label label-warning">authentication required</span>
+                              </small>
+                            <% } %>
+                          </h4>
+                        </div>
+                        <div class="panel-body">
+                          <% if (doc.description || doc.return) { %>
+                            <blockquote>
+                              <% if (doc.description) { %>
+                                <p><%= doc.description %></p>
+                              <% } %>
+                              <% if (doc.return && doc.return.description) { %>
+                                <p><strong>return</strong>&nbsp;<%= doc.return.description %></p>
+                              <% } %>
+                            </blockquote>
+                          <% } %>
+                          <% if (doc.params.length) { %>
+                            <p><strong>params</strong></p>
+                            <% for (var ind = 0, len = doc.params.length; ind < len; ind++) { %>
+                              <p><span><%= doc.params[ind].key %></span>&nbsp;:&nbsp;<span><%= doc.params[ind].type %></span>&nbsp;-&nbsp;<span><%= doc.params[ind].name %></span></p>
+                            <% } %>
+                          <% } %>
+                        </div>
+                      </div>
+                    <% }) %>
+                  <% } %>
+                </div>
               <% } %>
             </div>
-          <% } %>
-        </div>
+        <% } else { %>
+            <p>&nbsp;</p>
+            <div class="alert alert-info">
+                <strong>Oops!</strong> We have no help.
+          </div>
+        <% } %>
       </div>
     </div>
     <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>

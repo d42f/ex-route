@@ -19,7 +19,7 @@
     "url": "http://github.com/da2f/ex-route/issues"
   },
   "main": "ex-route.js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "licenses": [
     {
       "type": "MIT",
